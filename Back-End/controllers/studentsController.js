@@ -5,32 +5,36 @@ const Students = db.students;
 const addStudents = async (req, res) => {
   let info = {
     name: req.body.name,
-    classid: req.body.classid,
+    classId: req.body.classid,
     age: req.body.age,
-    coursesid: req.body.courseid,
   };
 
-  const students = await Students.create(info);
+  const students = await db.Student.create(info);
   res.status(200).send(students);
   console.log(students);
 };
 
 const getAllStudents = async (req, res) => {
-  let students = await Students.findAll({});
+  let students = await db.Student.findAll({
+   include: [{
+      model: db.Class,
+      as: "class",
+    }],
+  });
   res.status(200).send(students);
 };
 
 const updateStudent = async (req, res) => {
   let id = req.params.id;
 
-  const students = await Students.update(req.body, { where: { id: id } });
+  const students = await db.Student.update(req.body, { where: { id: id } });
   res.status(200).send(students);
 };
 
 const deleteStudent = async (req, res) => {
   let id = req.params.id;
 
-  await Students.destroy({ where: { id: id } });
+  await db.Student.destroy({ where: { id: id } });
   res.status(200).send("Student deleted");
 };
 
