@@ -30,7 +30,7 @@ app.use('/api/students',srouter)
 const routerCourse = require('./routes/coursesRouter.js')
 app.use('/api/courses', routerCourse)
 
-const routerScourse = require('./routes/scoursesRouter.js')
+const routerScourse = require('./routes/coursestudentRouter.js')
 app.use('/api/scourses', routerScourse)
 //port
 

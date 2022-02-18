@@ -3,15 +3,16 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class coursestudent extends Model {
     static associate(models) {
-      coursestudent.belongsTo(models.Course, {
+      coursestudent.belongsToMany(models.Course, {
+        through: "coursestudent",
         foreignKey: "courseId",
         as: "course",
       });
-      coursestudent.belongsTo(models.Student, {
+      coursestudent.belongsToMany(models.Student, {
+        through: "coursestudent",
         foreignKey: "studentId",
         as: "student",
       });
-    //Bu kısımda bir hata var.
     }
   }
   coursestudent.init(

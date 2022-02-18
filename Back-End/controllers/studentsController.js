@@ -16,10 +16,7 @@ const addStudents = async (req, res) => {
 
 const getAllStudents = async (req, res) => {
   let students = await db.Student.findAll({
-   include: [{
-      model: db.Class,
-      as: "class",
-    }],
+    include: ["courses", "class"],
   });
   res.status(200).send(students);
 };
@@ -34,14 +31,27 @@ const updateStudent = async (req, res) => {
 const deleteStudent = async (req, res) => {
   let id = req.params.id;
 
+  await db.coursestudent.destroy({
+    where: {
+      studentId: id,
+    },
+  });
+
   await db.Student.destroy({ where: { id: id } });
   res.status(200).send("Student deleted");
 };
 
+const deleteAllStudent = async (req, res) => {
+  await db.coursestudent.destroy({ where: {} });
+
+  await db.Student.destroy({ where: {} });
+  res.status(200).send("All students deleted");
+};
 
 module.exports = {
   addStudents,
   getAllStudents,
   deleteStudent,
   updateStudent,
+  deleteAllStudent
 };

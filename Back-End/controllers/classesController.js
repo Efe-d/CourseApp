@@ -11,7 +11,14 @@ const addClasses = async (req, res) => {
 };
 
 const getAllClasses = async (req, res) => {
-  let classes = await db.Class.findAll({});
+  let classes = await db.Class.findAll({
+    include: [
+      {
+        model: db.Student,
+        as: "students",
+      },
+    ],
+  });
   res.status(200).send(classes);
 };
 
@@ -28,9 +35,14 @@ const deleteClass = async (req, res) => {
   res.status(200).send("Class deleted");
 };
 
+const deleteAllClasses = async (req, res) => {
+  await db.Class.destroy({ where: {} });
+  res.status(200).send("All classes deleted");
+};
 module.exports = {
   addClasses,
   getAllClasses,
   deleteClass,
   updateClass,
+  deleteAllClasses
 };
