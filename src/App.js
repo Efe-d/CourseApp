@@ -2,12 +2,18 @@ import React from "react";
 import { render } from "react-dom";
 import Logo from "./Images/Logo.png";
 import "./App.css";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import classes from "./Components/Screens/classes.js";
-import students from "./Components/Screens/students.js";
-import courses from "./Components/Screens/courses.js";
-
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
+import Classes from "./Components/Screens/Classes.js";
+import Students from "./Components/Screens/Stundets.js";
+import Courses from "./Components/Screens/Courses.js";
 function App() {
+  let navigate = useNavigate();
   const links = [
     {
       name: "Home",
@@ -15,55 +21,53 @@ function App() {
     },
     {
       name: "Classes",
-      path: "/classes",
+      path: "/Classes",
     },
     {
       name: "Students",
-      path: "/students",
+      path: "/Students",
     },
     {
       name: "Courses",
-      path: "/courses",
+      path: "/Courses",
     },
   ];
 
   return (
-    <BrowserRouter>
-      <div className="Main">
-        <div className="left">
-          <div className="menu">
-            <div className="name">
-              <img src={Logo} alt="logo" />
-              <h1>Course App</h1>
-            </div>
-            <div className="links">
-              {links.map((link) => (
-                <Link to={link.path}>{link.name}</Link>
-              ))}
-            </div>
+    <div className="Main">
+      <div className="left">
+        <div className="menu">
+          <div className="name">
+            <img src={Logo} alt="logo" />
+            <h1>Course App</h1>
           </div>
-        </div>
-
-        <div className="right">
-          <div className="header">
-            <h1>Header</h1>
-          </div>
-
-          <div className="content">
-            <Routes>
-              <Route path="/" element={<h1>Welcome To Our Course App</h1>} />
-              <Route path="/classes" element={<classes />} />
-              <Route path="/students" element={<students />} />
-              <Route path="/courses" element={<courses />} />
-            </Routes>
-          </div>
-
-          <div className="footer">
-            <h1>Footer</h1>
+          <div className="links">
+            {links.map((link) => (
+              <a onClick={() => navigate(`${link.path}`)}>{link.name}</a>
+            ))}
           </div>
         </div>
       </div>
-    </BrowserRouter>
+
+      <div className="right">
+        <div className="header">
+          <h1>Header</h1>
+        </div>
+
+        <div className="content">
+          <Routes>
+            <Route path="/" element={<h1>Welcome To Our Course App</h1>} />
+            <Route path="/Classes" element={<Classes />} />
+            <Route path="/Students" element={<Students />} />
+            <Route path="/Courses" element={<Courses />} />
+          </Routes>
+        </div>
+
+        <div className="footer">
+          <h1>Footer</h1>
+        </div>
+      </div>
+    </div>
   );
 }
 
